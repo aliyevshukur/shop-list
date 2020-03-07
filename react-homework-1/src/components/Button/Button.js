@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './Button.css';
+import './Button.scss';
 
 class Button extends Component {
 
@@ -14,6 +14,7 @@ class Button extends Component {
     }
 
     componentDidMount() {
+        //Change button background color
         this.bgColor.current.style.backgroundColor = this.state.backgroundColor;
     }
 

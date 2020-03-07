@@ -1,139 +1,113 @@
 import React, {Component} from 'react';
 import Button from "./components/Button/Button";
-import Modal from "./components/Modal/Modal";
-import './App.css';
+import ModalWindow from "./components/ModalWindow/ModalWindow";
+import './App.scss';
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            headerText: '',
-            isCrossIcon: false,
-            mainText: '',
-            buttons: [],
-            showFirstModalWindow: false,
-            showSecondModalWindow: false
+            modalWindows: [null, false, false]
         };
     }
 
-    hideFirstModalWindow = (e) => {
 
-        if (e.currentTarget.classList.contains('background')){
-            if (e.target === e.currentTarget){
-                console.log(e.target,e.currentTarget);
-                this.setState(function (prevState, props) {
-                    return {showFirstModalWindow: !prevState.showFirstModalWindow}
-                });
+    // Show and hide modal window
+    toggleModalWindow = (e, id) => {
+        // Check if background clicked
+        if (e.currentTarget.classList.contains('background')) {
+            //Prevent click on modal window except background
+            if (e.currentTarget === e.target) {
+                let modalWindows = [...this.state.modalWindows];
+                modalWindows[id] = !modalWindows[id];
+                this.setState({modalWindows});
             }
-        }else{
-            this.setState(function (prevState, props) {
-                return {showFirstModalWindow: !prevState.showFirstModalWindow}
-            });
+        } else {
+            //Toggle window on button click
+            let modalWindows = [...this.state.modalWindows];
+            modalWindows[id] = !modalWindows[id];
+            this.setState({modalWindows});
         }
-    };
 
-    hideSecondModalWindow = (e) => {
-      if (e.currentTarget.classList.contains('background')){
-          if (e.target === e.currentTarget){
-              this.setState(function (prevState, props) {
-                  return {showSecondModalWindow: !prevState.showSecondModalWindow}
-              });
-          }
-      }else{
-          this.setState(function (prevState, props) {
-              return {showSecondModalWindow: !prevState.showSecondModalWindow}
-          });
-      }
-    };
-
-    handleFirstButtonClick = () => {
-
-        this.setState(function (prevState, props) {
-            return {showFirstModalWindow: !prevState.showFirstModalWindow}
-        });
-        this.displayFirstModalWindow();
-    };
-
-    handleSecondButtonClick = () => {
-        this.setState(function (prevState, props) {
-            return {showSecondModalWindow: !prevState.showSecondModalWindow}
-        });
-        this.displaySecondModalWindow();
-    };
-
-    displayFirstModalWindow = () => {
-        if (this.state.showFirstModalWindow) {
-
-            const button1 = <Button
-                bgColor='#b3382c'
-                text='Ok'
-                onClick={this.hideFirstModalWindow}
-            />;
-
-            const button2 = <Button
-                bgColor='#b3382c'
-                text='Cancel'
-                onClick={this.hideFirstModalWindow}
-            />;
-
-            return (
-                <Modal
-                    headerText='Do you want to delete this file?'
-                    isCrossIcon={true}
-                    mainText='Once you delete this file, it won’t be possible to undo this action. Are you sure you want to delete it?'
-                    buttons={[button1, button2]}
-                    hideModalWindow={this.hideFirstModalWindow}
-                />
-            );
-        }
-    };
-
-    displaySecondModalWindow = () => {
-        if (this.state.showSecondModalWindow) {
-
-            const button1 = <Button
-                bgColor='#b3382c'
-                text='Buy'
-                onClick={this.hideSecondModalWindow}
-            />;
-
-            const button2 = <Button
-                bgColor='#b3382c'
-                text='Cancel'
-                onClick={this.hideSecondModalWindow}
-            />;
-
-            return (
-                <Modal
-                    headerText='Confirm your purchase'
-                    isCrossIcon={false}
-                    mainText='If you proceed your credit card will be charged $43.00.'
-                    buttons={[button1, button2]}
-                    hideModalWindow={this.hideSecondModalWindow}
-
-                />
-            );
-        }
     };
 
     render() {
+
         return (
             <div className={'container'}>
+
                 <Button
                     bgColor='red'
                     text='Delete'
-                    onClick={this.handleFirstButtonClick}
+                    onClick={(event) => {
+                        this.toggleModalWindow(event, 1)
+                    }}
                 />
+
                 <Button
                     bgColor='blue'
                     text='Buy'
-                    onClick={this.handleSecondButtonClick}
+                    onClick={(event) => {
+                        this.toggleModalWindow(event, 2)
+                    }}
                 />
 
-                {this.displayFirstModalWindow()}
-                {this.displaySecondModalWindow()}
 
+                {/*ModalWindow Windows*/}
+                {this.state.modalWindows[1] ?
+                    <ModalWindow
+                        headerText={'Do you want to delete this file?'}
+                        isCrossIcon={true}
+                        mainText={'Once you delete this file, it won’t be possible to undo this action. Are you sure you want to delete it?'}
+                        actions={[
+                            <Button
+                                bgColor='#b3382c'
+                                text='Delete'
+                                onClick={(event) => {
+                                    this.toggleModalWindow(event, 1)
+                                }}
+                            />,
+                            <Button
+                                bgColor='#b3382c'
+                                text='Cancel'
+                                onClick={(event) => {
+                                    this.toggleModalWindow(event, 1)
+                                }}
+                            />
+                        ]}
+                        hideModalWindow={(event) => {
+                            this.toggleModalWindow(event, 1)
+                        }}
+                    /> : null
+                }
+
+                {this.state.modalWindows[2] ?
+                    <ModalWindow
+                        headerText={'Confirm your purchase'}
+                        isCrossIcon={true}
+                        mainText={'If you proceed your credit card will be charged $43.00.'}
+                        actions={[
+                            <Button
+                                bgColor='#b3382c'
+                                text='Buy'
+                                onClick={(event) => {
+                                    this.toggleModalWindow(event, 2)
+                                }}
+                            />,
+                            <Button
+                                bgColor='#b3382c'
+                                text='Cancel'
+                                onClick={(event) => {
+                                    this.toggleModalWindow(event, 2)
+                                }}
+                            />
+                        ]}
+                        hideModalWindow={(event) => {
+                            this.toggleModalWindow(event, 2)
+                        }}
+                    /> : null
+                }
             </div>
         );
     }
