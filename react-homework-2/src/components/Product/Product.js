@@ -25,9 +25,8 @@ class Product extends Component {
 
                 console.log('aaa');
             }
-                return {...prevState, isStarOn: !prevState.isStarOn}
+            return {...prevState, isStarOn: !prevState.isStarOn}
         });
-
 
 
     };

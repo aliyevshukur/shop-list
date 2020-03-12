@@ -39,12 +39,13 @@ class App extends Component {
     // Show and hide modal window
     toggleModalWindow = (e, id, selectedProduct) => {
         // Check if background clicked
-        if (e.target.classList.contains('modal-background')) {
-            //Prevent click on modal window except background
+        if (e.currentTarget.classList.contains('modal-background')) {
 
+            if (e.currentTarget === e.target) {
                 let modalWindows = [...this.state.modalWindows];
                 modalWindows[id] = !modalWindows[id];
                 this.setState({modalWindows});
+            }
 
         } else {
             //Toggle window on button click
@@ -86,25 +87,18 @@ class App extends Component {
         }
     }
 
-    addFavorites = (id)=>{
-        console.log('favs before',JSON.parse(localStorage.getItem('favorites')));
+    addFavorites = (id) => {
+        console.log('favs before', JSON.parse(localStorage.getItem('favorites')));
         let favorites = JSON.parse(localStorage.getItem('favorites'));
-        console.log('favs after',favorites);
+        console.log('favs after', favorites);
 
 
-        if (favorites) {
-            let favProduct = this.state.productsList.filter(product => product.number === id);
-            if (!this.state.productsList.includes(favProduct)) {
-                favorites.push(favProduct[0]);
-                localStorage.setItem('favorites', JSON.stringify(favProduct));
-            }
-        }
-        // }else{
-        //     favorites = [];
-        //     let favProduct = [...this.state.productsList.filter(product => product.number === id)];
-        //     favorites.push(favProduct[0]);
-        //     localStorage.setItem('favorites', JSON.stringify(favProduct));
+        let favProduct = this.state.productsList.filter(product => product.number === id);
+        // if (!favorites.some((fav)=>{return fav === favProduct[0]})) {
+        favorites.push(favProduct[0]);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
         // }
+
     };
 
     render() {
