@@ -1,0 +1,124 @@
+@mixin bottom-box-shadow {
+  box-shadow: 0 1px 6px 0 rgba(112, 112, 112, 1);
+}
+
+@mixin border-radius {
+  border-radius: 3px;
+}
+
+@mixin reset-button {
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+@mixin flex-row-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.background {
+  background: url("./background.png") no-repeat;
+  background-size: cover;
+
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 970px;
+    margin: 0 auto;
+    padding: 0;
+
+    .product-list-item {
+      @include flex-row-space-between;
+      flex-direction: column;
+      flex-basis: calc(25% - 12.5px);
+      @include border-radius;
+      @include bottom-box-shadow;
+      margin: 5px;
+      list-style-type: none;
+      box-shadow: gray;
+      background-color: #fff;
+
+      .image {
+        @include bottom-box-shadow;
+        @include border-radius;
+
+      }
+
+      .description {
+        padding: 10px;
+
+        .name-and-star {
+          @include flex-row-space-between;
+          align-items: center;
+          margin-bottom: 15px;
+
+          .name-wrapper {
+            font-weight: bold;
+
+            .name {
+              margin: 0;
+            }
+
+          }
+        }
+
+        .icon-wrapper {
+          font-size: 1.7em;
+        }
+
+        .star {
+          background-color: #fff;
+          @include reset-button;
+
+          .fa-star {
+            color: #7d7d7d;
+          }
+
+          .fa-star:hover {
+            color:#f7e40a;
+
+          }
+        }
+
+        .desc-text {
+          font-size: 10pt;
+          margin-top: 0;
+        }
+
+        .price-and-add-button {
+          display: flex;
+          justify-content: space-between;
+          font-weight: bold;
+
+          .price {
+            margin-top: 0;
+          }
+
+          .add-card-button {
+            background-color: #1e1e20;
+            @include reset-button;
+            border-radius: 3px;
+            padding: 3px;
+            color: white;
+            font-size: 10px;
+            height: 20px;
+          }
+
+          .add-card-button:hover {
+            background-color:#595959;
+
+          }
+        }
+
+
+      }
+
+    }
+
+    .product-list-item:last-child {
+      margin-right: 0;
+    }
+  }
+
+}
