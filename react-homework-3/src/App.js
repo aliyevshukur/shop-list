@@ -23,6 +23,7 @@ const App = () => {
     };
 
     useEffect(() => {
+        localStorage.clear();
         let url = "products.json";
 
         fetch(url)
@@ -54,27 +55,30 @@ const App = () => {
 
         if (selectedProductToDelete) {
             setSelectedProductToDelete(selectedProductToDelete);
-            console.log(selectedProductToDelete);
         }
     };
 
-    const addCart = (event, productId) => {
+    const addCart = (event) => {
         toggleModalWindow(event, 1);
 
-        if (productId) {
-            let cart = JSON.parse(localStorage.getItem("cart"));
+        let cart = JSON.parse(localStorage.getItem("cart"));
 
-            if (!cart) {
-                cart = [];
+        if (!cart) {
+            cart = [];
+        }
+
+        let isUnique = true;
+
+            cart.forEach((item) => {
+            if (item.number === selectedProductToAdd.number) {
+                isUnique = false;
             }
+        });
 
-            if (!cart.includes(productId)) {
-                let selectedProductToAdd = productsList.filter(product => product.number === productId);
-                cart.push(selectedProductToAdd[0]);
-                localStorage.setItem("cart", JSON.stringify(cart));
-                setCartItems(JSON.parse(localStorage.getItem("cart")));
-            }
-
+        if (isUnique) {
+            cart.push(selectedProductToAdd);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            setCartItems(cart);
         }
     };
 
@@ -87,6 +91,7 @@ const App = () => {
         console.log(cartItems);
         localStorage.setItem("cart", JSON.stringify(newCart));
         setCartItems(JSON.parse(localStorage.getItem("cart")));
+
     };
 
     const addFavorites = id => {
@@ -130,7 +135,7 @@ const App = () => {
                             bgColor="black"
                             text="Add"
                             onClick={event => {
-                                addCart(event, selectedProductToAdd);
+                                addCart(event);
                             }}
                         />,
                         <Button

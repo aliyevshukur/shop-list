@@ -1,13 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import CartItem from "../CartItem/CartItem";
 
-const Cart = props => {
-    const [cartItems] = useState(props.cartItems);
+const CartWrapper = props => {
 
     return (
         <div className={"cart-wrapper"}>
-            {cartItems
-                ? cartItems.map((item, ind) => (
+            {props.cartItems
+                ? props.cartItems.map((item, ind) => (
                     <CartItem
                         key={ind}
                         product={item}
@@ -19,4 +18,4 @@ const Cart = props => {
     );
 };
 
-export default Cart;
+export default CartWrapper;

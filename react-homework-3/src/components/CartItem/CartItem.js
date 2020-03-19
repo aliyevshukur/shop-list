@@ -1,9 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 
 const CartItem = props => {
     const imageUrl = require(`../../../public/img/${props.product.path}`);
 
-    const [url, setUrl] = useState(imageUrl);
 
     return (
         <li className={"cart-list-item"}>

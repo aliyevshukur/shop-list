@@ -54,7 +54,7 @@ class Product extends Component {
                         <p className={"price"}>${this.props.product.price}</p>
                         <button className={"add-card-button"}
                                 onClick={event => {
-                                    this.props.toggleModalWindow(event, 1, this.props.product.number);
+                                    this.props.toggleModalWindow(event, 1, this.props.product);
                                 }}>
                             ADD TO CART
                         </button>
