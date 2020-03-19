@@ -13,7 +13,7 @@ const CartWrapper = props => {
                         toggleModalWindow={props.toggleModalWindow}
                     />
                 ))
-                : null}
+                : <h1>NO ITEMS</h1>}
         </div>
     );
 };

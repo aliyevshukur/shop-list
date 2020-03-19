@@ -5,7 +5,6 @@ import ProductList from "./components/ProductList/ProductList";
 import ModalWindow from "./components/ModalWindow/ModalWindow";
 import Button from "./components/Button/Button";
 import CartWrapper from "./components/CartWrapper/CartWrapper";
-import Favorites from "./components/Favorites/Favorites";
 import Header from "./components/Header/Header";
 
 const App = () => {
@@ -16,6 +15,9 @@ const App = () => {
     const [cartItems, setCartItems] = useState(
         JSON.parse(localStorage.getItem("cart"))
     );
+    const [favoritesItems, setFavoritesItems] = useState(
+        JSON.parse(localStorage.getItem("cart"))
+    );
 
     const buildProductList = data => {
         const productsList = [...data];
@@ -23,7 +25,6 @@ const App = () => {
     };
 
     useEffect(() => {
-        localStorage.clear();
         let url = "products.json";
 
         fetch(url)
@@ -69,7 +70,7 @@ const App = () => {
 
         let isUnique = true;
 
-            cart.forEach((item) => {
+        cart.forEach((item) => {
             if (item.number === selectedProductToAdd.number) {
                 isUnique = false;
             }
@@ -88,17 +89,28 @@ const App = () => {
         const cart = JSON.parse(localStorage.getItem("cart"));
         const newCart = cart.filter(cart => cart.number !== selectedProductToDelete.number);
 
-        console.log(cartItems);
         localStorage.setItem("cart", JSON.stringify(newCart));
         setCartItems(JSON.parse(localStorage.getItem("cart")));
 
     };
 
-    const addFavorites = id => {
+    const addFavorites = number => {
+
+
         let favorites = JSON.parse(localStorage.getItem("favorites")),
-            favProduct = productsList.filter(product => product.number === id);
+            favProduct = productsList.filter(product => product.number === number);
 
         favorites.push(favProduct[0]);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        setFavoritesItems(favorites);
+    };
+
+    const deleteFavorites = number => {
+        let favorites = JSON.parse(localStorage.getItem("favorites"));
+        favorites = [...favorites.filter(product => product.number !== number)];
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        setFavoritesItems(favorites);
     };
 
     const loadingProductList = () => {
@@ -107,6 +119,7 @@ const App = () => {
                 toggleModalWindow={toggleModalWindow}
                 products={productsList}
                 addFavorites={addFavorites}
+                deleteFavorites={deleteFavorites}
             />
         );
     };
@@ -115,13 +128,23 @@ const App = () => {
         return <CartWrapper cartItems={cartItems} toggleModalWindow={toggleModalWindow}/>;
     };
 
+    const loadingFavorites = () => {
+        return (
+            <ProductList
+                toggleModalWindow={toggleModalWindow}
+                products={favoritesItems}
+                addFavorites={addFavorites}
+                deleteFavorites={deleteFavorites}/>
+        );
+    };
+
     return (
         <div className={"background"}>
             <Header/>
 
             <Route exact path={"/"} render={loadingProductList}/>
             <Route path={"/cart"} render={loadingCartItems}/>
-            <Route path={"/favorites"} component={Favorites}/>
+            <Route path={"/favorites"} render={loadingFavorites}/>
 
             {modalWindows[1] ? (
                 <ModalWindow

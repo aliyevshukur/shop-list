@@ -1,19 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Product from "../Product/Product";
 
-class ProductList extends Component {
-    render() {
-        return (
-            <ul className={'product-list'}>
-                {this.props.products.map((product) => {
-                    return <Product key={product.number}
-                                    product={product}
-                                    toggleModalWindow={this.props.toggleModalWindow}
-                                    addFavorites={this.props.addFavorites}/>
-                })}
-            </ul>
-        );
-    }
-}
+const ProductList = (props) => {
+
+    return (
+        <ul className={'product-list'}>
+            {props.products ? props.products.map((product) => {
+                return <Product key={product.number}
+                                product={product}
+                                toggleModalWindow={props.toggleModalWindow}
+                                addFavorites={props.addFavorites}
+                                deleteFavorites={props.deleteFavorites}
+                />
+            }) : <h1>NO ITEMS</h1>}
+        </ul>
+    );
+};
 
 export default ProductList;
