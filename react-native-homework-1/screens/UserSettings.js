@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { connect } from "react-redux";
 
 import { CustomText } from "../components/CustomText";
@@ -15,14 +15,13 @@ const mapStateToProps = (state) => ({
 });
 
 export const UserSettings = connect(mapStateToProps, { updateSettings })(
-  (props) => {
+  ({ userSettings, navigation, updateSettings }) => {
     const [fields, setFields] = useState({
-      username: props.userSettings.username,
-      avatarUrl: props.userSettings.avatarUrl,
+      username: userSettings.username,
+      avatarUrl: userSettings.avatarUrl,
     });
-    console.log(props);
 
-    const handleFieldChange = (name, value) => {
+    const onChangeText = (name, value) => {
       setFields({
         ...fields,
         [name]: value,
@@ -36,8 +35,8 @@ export const UserSettings = connect(mapStateToProps, { updateSettings })(
         }
       }
 
-      props.updateSettings(fields);
-      props.navigation.navigate("Homepage");
+      updateSettings(fields);
+      navigation.navigate("Homepage");
     };
 
     return (
@@ -46,7 +45,7 @@ export const UserSettings = connect(mapStateToProps, { updateSettings })(
 
         <CustomTextInput
           style={styles.listName}
-          handleFieldChange={handleFieldChange}
+          onChangeText={onChangeText}
           name="username"
           value={fields.username}
         />
@@ -55,7 +54,7 @@ export const UserSettings = connect(mapStateToProps, { updateSettings })(
 
         <CustomTextInput
           style={styles.listName}
-          handleFieldChange={handleFieldChange}
+          onChangeText={onChangeText}
           name="avatarUrl"
           value={fields.avatarUrl}
         />

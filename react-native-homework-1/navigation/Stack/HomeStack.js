@@ -8,7 +8,7 @@ import { CustomHeaderTitle } from "../../commons/CustomHeaderTitle";
 import { CustomHeaderIcon } from "../../commons/CustomHeaderIcon";
 import {
   getSections,
-  getCurrentList,
+  getCurrentListId,
   getCurrentSection,
 } from "../../store/lists";
 
@@ -17,12 +17,10 @@ const { Navigator, Screen } = createStackNavigator();
 const mapStateToProps = (state) => ({
   sections: getSections(state),
   currentSection: getCurrentSection(state),
-  currentList: getCurrentList(state),
+  currentList: getCurrentListId(state),
 });
 
-export const HomeStack = connect(mapStateToProps)((props) => {
-  const { currentList } = props;
-  console.log("currentList", currentList);
+export const HomeStack = connect(mapStateToProps)(() => {
   return (
     <Navigator
       screenOptions={({ navigation }) => ({

@@ -1,7 +1,6 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { connect } from "react-redux";
-import { DrawerContentScrollView } from "@react-navigation/drawer";
 
 import { CustomText } from "../components/CustomText";
 import { CustomButton } from "../components/CustomButton";

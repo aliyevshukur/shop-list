@@ -8,7 +8,7 @@ export class CustomHeaderIcon extends React.Component {
       <TouchableOpacity onPress={this.props.onPress}>
         <Ionicons
           name={this.props.iconName}
-          size={32}
+          size={this.props.size || 32}
           color={"#FFFFFF"}
           style={{ marginRight: 16 }}
         />

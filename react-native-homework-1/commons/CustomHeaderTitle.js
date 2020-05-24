@@ -4,8 +4,6 @@ import { CustomText } from "../components/CustomText";
 
 export const CustomHeaderTitle = (props) => {
   const { title } = props;
-
-  // console.log(props);
   
   return (
     <View style={styles.header}>
